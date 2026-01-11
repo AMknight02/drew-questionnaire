@@ -347,30 +347,42 @@ export default function DrewQuestionnaire() {
           <div style={{...styles.progressBar, width: progress + '%'}}></div>
         </div>
 
-        <nav style={styles.sectionNav}>
-          {questions.map((s, idx) => {
-            const sectionAnswered = s.items.filter((_, qIdx) => {
-              const key = idx + '-' + qIdx;
-              return answers[key] && answers[key].trim().length > 0;
-            }).length;
-            const sectionComplete = sectionAnswered === s.items.length;
+        <div style={styles.navRow}>
+          <nav style={styles.sectionNav}>
+            {questions.map((s, idx) => {
+              const sectionAnswered = s.items.filter((_, qIdx) => {
+                const key = idx + '-' + qIdx;
+                return answers[key] && answers[key].trim().length > 0;
+              }).length;
+              const sectionComplete = sectionAnswered === s.items.length;
 
-            return (
-              <button
-                key={idx}
-                style={{
-                  ...styles.sectionTab,
-                  ...(idx === currentSection ? styles.sectionTabActive : {}),
-                  ...(sectionComplete ? styles.sectionTabComplete : {})
-                }}
-                onClick={() => goToSection(idx)}
-              >
-                <span style={styles.tabIcon}>{s.icon}</span>
-                <span style={styles.tabNumber}>{sectionAnswered}/{s.items.length}</span>
-              </button>
-            );
-          })}
-        </nav>
+              return (
+                <button
+                  key={idx}
+                  style={{
+                    ...styles.sectionTab,
+                    ...(idx === currentSection ? styles.sectionTabActive : {}),
+                    ...(sectionComplete ? styles.sectionTabComplete : {})
+                  }}
+                  onClick={() => goToSection(idx)}
+                >
+                  <span style={styles.tabIcon}>{s.icon}</span>
+                  <span style={styles.tabNumber}>{sectionAnswered}/{s.items.length}</span>
+                </button>
+              );
+            })}
+          </nav>
+          <div style={styles.infoBox}>
+            <div style={styles.infoItem}>
+              <span style={styles.infoIcon}>💾</span>
+              <span style={styles.infoText}>Answers auto-save as you type</span>
+            </div>
+            <div style={styles.infoItem}>
+              <span style={styles.infoIcon}>📨</span>
+              <span style={styles.infoText}>Submit button on final section</span>
+            </div>
+          </div>
+        </div>
 
         <div style={styles.sectionHeader}>
           <span style={styles.sectionIcon}>{section.icon}</span>
@@ -567,7 +579,7 @@ const styles = {
   },
   saveStatus: {
     fontSize: '12px',
-    color: '#888',
+    color: '#4CAF50',
   },
   progressText: {
     fontFamily: 'Cinzel, serif',
@@ -584,13 +596,42 @@ const styles = {
     background: 'linear-gradient(90deg, #CD1126, #D4AF37)',
     transition: 'width 0.4s ease',
   },
-  sectionNav: {
+  navRow: {
     display: 'flex',
-    justifyContent: 'center',
-    gap: '8px',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: '12px 16px',
     background: 'rgba(0,0,0,0.2)',
+    gap: '20px',
+  },
+  sectionNav: {
+    display: 'flex',
+    gap: '8px',
     overflowX: 'auto',
+    flex: 1,
+  },
+  infoBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    padding: '10px 14px',
+    background: 'rgba(212, 175, 55, 0.1)',
+    borderRadius: '8px',
+    border: '1px solid rgba(212, 175, 55, 0.3)',
+    flexShrink: 0,
+  },
+  infoItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+  },
+  infoIcon: {
+    fontSize: '12px',
+  },
+  infoText: {
+    fontSize: '11px',
+    color: '#D4AF37',
+    whiteSpace: 'nowrap',
   },
   sectionTab: {
     display: 'flex',
